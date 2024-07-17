@@ -1,0 +1,5 @@
+var searchIndex = new Map(JSON.parse('[\
+["flatten_objects",{"t":"FNNNNNNNNNNNNNNNN","n":["FlattenObjects","add","add_at","borrow","borrow_mut","capacity","count","from","get","get_mut","into","is_assigned","new","remove","try_from","try_into","type_id"],"q":[[0,"flatten_objects"],[17,"core::option"],[18,"core::result"],[19,"core::any"]],"i":[0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2],"f":"`{{{f{b{d{c}}}}c}{{j{h}}}{}}{{{f{b{d{c}}}}hc}{{j{h}}}{}}{{{f{c}}}{{f{e}}}{}{}}{{{f{bc}}}{{f{be}}}{}{}}{{{f{{d{c}}}}}h{}}0{cc{}}{{{f{{d{c}}}}h}{{j{{f{c}}}}}{}}{{{f{b{d{c}}}}h}{{j{{f{bc}}}}}{}}{ce{}{}}{{{f{{d{c}}}}h}l{}}{{}{{d{c}}}{}}{{{f{b{d{c}}}}h}{{j{c}}}{}}{c{{n{e}}}{}{}}0{{{f{c}}}A`{}}","D":"Aj","p":[[0,"mut"],[5,"FlattenObjects",0],[1,"reference"],[1,"usize"],[6,"Option",17],[1,"bool"],[6,"Result",18],[5,"TypeId",19]],"r":[],"b":[],"c":"OjAAAAAAAAA=","e":"OjAAAAEAAAAAAAQAEAAAAAQABQAPABAAEQA="}]\
+]'));
+if (typeof exports !== 'undefined') exports.searchIndex = searchIndex;
+else if (window.initSearch) window.initSearch(searchIndex);
