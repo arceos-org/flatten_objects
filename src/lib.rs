@@ -50,23 +50,23 @@ pub struct FlattenObjects<T, const CAP: usize> {
 
 impl<T, const CAP: usize> FlattenObjects<T, CAP> {
     /// Creates a new empty `FlattenObjects`.
-    /// 
+    ///
     /// # Panics
-    /// 
+    ///
     /// Panics if `CAP` is greater than 1024.
-    /// 
+    ///
     /// # Example
-    /// 
+    ///
     /// ```
     /// use flatten_objects::FlattenObjects;
-    /// 
+    ///
     /// let objects = FlattenObjects::<u32, 20>::new();
     /// assert_eq!(objects.capacity(), 20);
     /// ```
-    /// 
+    ///
     /// ```should_panic
     /// use flatten_objects::FlattenObjects;
-    /// 
+    ///
     /// let objects = FlattenObjects::<u32, 1025>::new();
     /// ```
     pub const fn new() -> Self {
@@ -82,12 +82,12 @@ impl<T, const CAP: usize> FlattenObjects<T, CAP> {
     /// Returns the maximum number of objects that can be held.
     ///
     /// It also equals the maximum ID that can be assigned plus one.
-    /// 
+    ///
     /// # Example
-    /// 
+    ///
     /// ```
     /// use flatten_objects::FlattenObjects;
-    /// 
+    ///
     /// let objects = FlattenObjects::<u32, 20>::new();
     /// assert_eq!(objects.capacity(), 20);
     /// ```
@@ -97,12 +97,12 @@ impl<T, const CAP: usize> FlattenObjects<T, CAP> {
     }
 
     /// Returns the number of objects that have been added.
-    /// 
+    ///
     /// # Example
-    /// 
+    ///
     /// ```
     /// use flatten_objects::FlattenObjects;
-    /// 
+    ///
     /// let mut objects = FlattenObjects::<u32, 20>::new();
     /// assert_eq!(objects.count(), 0);
     /// objects.add(23);    // Assign ID 0.
@@ -120,14 +120,14 @@ impl<T, const CAP: usize> FlattenObjects<T, CAP> {
     }
 
     /// Checks if the given `id` is assigned.
-    /// 
+    ///
     /// Returns `false` if the `id` is out of range.
-    /// 
+    ///
     /// # Example
-    /// 
+    ///
     /// ```
     /// use flatten_objects::FlattenObjects;
-    /// 
+    ///
     /// let mut objects = FlattenObjects::<u32, 20>::new();
     /// objects.add(23);        // Assign ID 0.
     /// objects.add_at(5, 42);  // Assign ID 5.
@@ -143,12 +143,12 @@ impl<T, const CAP: usize> FlattenObjects<T, CAP> {
 
     /// Returns the reference of the element with the given `id` if it already
     /// be assigned. Otherwise, returns `None`.
-    /// 
+    ///
     /// # Example
-    /// 
+    ///
     /// ```
     /// use flatten_objects::FlattenObjects;
-    /// 
+    ///
     /// let mut objects = FlattenObjects::<u32, 20>::new();
     /// objects.add(23);        // Assign ID 0.
     /// objects.add_at(5, 42);  // Assign ID 5.
@@ -170,12 +170,12 @@ impl<T, const CAP: usize> FlattenObjects<T, CAP> {
 
     /// Returns the mutable reference of the element with the given `id` if it
     /// exists. Otherwise, returns `None`.
-    /// 
+    ///
     /// # Example
-    /// 
+    ///
     /// ```
     /// use flatten_objects::FlattenObjects;
-    /// 
+    ///
     /// let mut objects = FlattenObjects::<u32, 20>::new();
     /// objects.add(23);        // Assign ID 0.
     /// objects.add_at(5, 42);  // Assign ID 5.
@@ -201,12 +201,12 @@ impl<T, const CAP: usize> FlattenObjects<T, CAP> {
     ///
     /// Returns the ID if there is one available. Otherwise, returns the object
     /// itself wrapped in `Err`.
-    /// 
+    ///
     /// # Example
-    /// 
+    ///
     /// ```
     /// use flatten_objects::FlattenObjects;
-    /// 
+    ///
     /// let mut objects = FlattenObjects::<u32, 3>::new();
     /// assert_eq!(objects.add(23), Ok(0));
     /// assert_eq!(objects.add(42), Ok(1));
@@ -228,15 +228,15 @@ impl<T, const CAP: usize> FlattenObjects<T, CAP> {
     }
 
     /// Add an object with the given ID.
-    /// 
+    ///
     /// Returns the ID if the object is added successfully. Otherwise, returns
     /// the object itself wrapped in `Err`.
-    /// 
+    ///
     /// # Example
-    /// 
+    ///
     /// ```
     /// use flatten_objects::FlattenObjects;
-    /// 
+    ///
     /// let mut objects = FlattenObjects::<u32, 20>::new();
     /// assert_eq!(objects.add_at(5, 23), Ok(5));
     /// assert_eq!(objects.add_at(5, 42), Err(42));
@@ -254,16 +254,16 @@ impl<T, const CAP: usize> FlattenObjects<T, CAP> {
 
     /// Adds an object with the given ID, replacing and returning the old object
     /// if the ID is already assigned.
-    /// 
+    ///
     /// Returns the ID if the object is added successfully. Returns `Err(Some(old))`
     /// if the ID is already assigned. Returns `Err(None)` if the ID is out of
     /// range.
-    /// 
+    ///
     /// # Example
-    /// 
+    ///
     /// ```
     /// use flatten_objects::FlattenObjects;
-    /// 
+    ///
     /// let mut objects = FlattenObjects::<u32, 20>::new();
     /// assert_eq!(objects.add_or_replace_at(5, 23), Ok(5));
     /// assert_eq!(objects.add_or_replace_at(5, 42), Err(Some(23)));
@@ -274,7 +274,7 @@ impl<T, const CAP: usize> FlattenObjects<T, CAP> {
         if id >= CAP {
             return Err(None);
         }
-        
+
         if self.is_assigned(id) {
             // SAFETY: the object at `id` should be initialized by `add` or
             // `add_at`, and can not be retrieved by `get` or `get_mut` unless
@@ -296,12 +296,12 @@ impl<T, const CAP: usize> FlattenObjects<T, CAP> {
     ///
     /// After this operation, the ID is freed and can be assigned for next
     /// object again.
-    /// 
+    ///
     /// # Example
-    /// 
+    ///
     /// ```
     /// use flatten_objects::FlattenObjects;
-    /// 
+    ///
     /// let mut objects = FlattenObjects::<u32, 20>::new();
     /// let id = objects.add(23).unwrap();
     /// assert_eq!(objects.remove(id), Some(23));
