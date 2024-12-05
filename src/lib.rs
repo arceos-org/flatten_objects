@@ -243,7 +243,7 @@ impl<T, const CAP: usize> FlattenObjects<T, CAP> {
     /// assert_eq!(objects.add_at(20, 42), Err(42));
     /// ```
     pub fn add_at(&mut self, id: usize, value: T) -> Result<usize, T> {
-        if self.is_assigned(id) || id >= CAP {
+        if id >= CAP || self.is_assigned(id) {
             return Err(value);
         }
         self.count += 1;
