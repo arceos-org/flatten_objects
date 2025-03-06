@@ -31,7 +31,7 @@
 
 #![no_std]
 
-use bitmaps::{Bitmap, Bits, BitsImpl};
+use bitmaps::{Bitmap, Bits, BitsImpl, Iter};
 use core::mem::MaybeUninit;
 
 /// A container that stores numbered objects.
@@ -323,5 +323,25 @@ where
         } else {
             None
         }
+    }
+
+    /// Gets an iterator over the IDs of the assigned objects.
+    ///
+    /// # Example
+    ///
+    /// ```
+    /// use flatten_objects::FlattenObjects;
+    ///
+    /// let mut objects = FlattenObjects::<u32, 20>::new();
+    /// objects.add(23);        // Assign ID 0.
+    /// objects.add_at(5, 42);  // Assign ID 5.
+    /// let mut iter = objects.ids();
+    /// assert_eq!(iter.next(), Some(0));
+    /// assert_eq!(iter.next(), Some(5));
+    /// assert_eq!(iter.next(), None);
+    /// ```
+    #[inline]
+    pub fn ids(&self) -> Iter<CAP> {
+        self.id_bitmap.into_iter()
     }
 }
