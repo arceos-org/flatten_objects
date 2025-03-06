@@ -31,7 +31,7 @@
 
 #![no_std]
 
-use bitmaps::Bitmap;
+use bitmaps::{Bitmap, Bits, BitsImpl};
 use core::mem::MaybeUninit;
 
 /// A container that stores numbered objects.
@@ -41,13 +41,19 @@ use core::mem::MaybeUninit;
 /// `CAP` is the maximum number of objects that can be held. It also equals the
 /// maximum ID that can be assigned plus one. Currently, `CAP` must not be
 /// greater than 1024.
-pub struct FlattenObjects<T, const CAP: usize> {
+pub struct FlattenObjects<T, const CAP: usize>
+where
+    BitsImpl<{ CAP }>: Bits,
+{
     objects: [MaybeUninit<T>; CAP],
-    id_bitmap: Bitmap<1024>,
+    id_bitmap: Bitmap<CAP>,
     count: usize,
 }
 
-impl<T, const CAP: usize> FlattenObjects<T, CAP> {
+impl<T, const CAP: usize> FlattenObjects<T, CAP>
+where
+    BitsImpl<{ CAP }>: Bits,
+{
     /// Creates a new empty `FlattenObjects`.
     ///
     /// # Panics
@@ -63,13 +69,12 @@ impl<T, const CAP: usize> FlattenObjects<T, CAP> {
     /// assert_eq!(objects.capacity(), 20);
     /// ```
     ///
-    /// ```should_panic
+    /// ```compile_fail
     /// use flatten_objects::FlattenObjects;
     ///
     /// let objects = FlattenObjects::<u32, 1025>::new();
     /// ```
     pub const fn new() -> Self {
-        assert!(CAP <= 1024);
         Self {
             objects: [const { MaybeUninit::uninit() }; CAP],
             // SAFETY: zero initialization is OK for `id_bitmap` (an array of integers).
