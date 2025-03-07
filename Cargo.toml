@@ -1,6 +1,6 @@
 [package]
 name = "flatten_objects"
-version = "0.2.2"
+version = "0.2.3"
 edition = "2024"
 authors = ["Yuekai Jia <equation618@gmail.com>"]
 description = "A container that stores numbered objects. Each object can be assigned with a unique ID."
