@@ -354,3 +354,18 @@ where
         Self::new()
     }
 }
+
+impl<T: Clone, const CAP: usize> Clone for FlattenObjects<T, CAP>
+where
+    BitsImpl<{ CAP }>: Bits,
+{
+    fn clone(&self) -> Self {
+        let mut cloned = Self::new();
+        cloned.count = self.count;
+        cloned.id_bitmap = self.id_bitmap;
+        for id in &self.id_bitmap {
+            cloned.objects[id].write(unsafe { self.objects[id].assume_init_ref() }.clone());
+        }
+        cloned
+    }
+}
