@@ -369,3 +369,14 @@ where
         cloned
     }
 }
+
+impl<T, const CAP: usize> Drop for FlattenObjects<T, CAP>
+where
+    BitsImpl<{ CAP }>: Bits,
+{
+    fn drop(&mut self) {
+        for id in &self.id_bitmap {
+            unsafe { self.objects[id].assume_init_drop() };
+        }
+    }
+}
