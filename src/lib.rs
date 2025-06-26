@@ -345,3 +345,12 @@ where
         self.id_bitmap.into_iter()
     }
 }
+
+impl<T, const CAP: usize> Default for FlattenObjects<T, CAP>
+where
+    BitsImpl<{ CAP }>: Bits,
+{
+    fn default() -> Self {
+        Self::new()
+    }
+}
