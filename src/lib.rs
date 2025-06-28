@@ -341,7 +341,7 @@ where
     /// assert_eq!(iter.next(), None);
     /// ```
     #[inline]
-    pub fn ids(&self) -> Iter<CAP> {
+    pub fn ids(&self) -> Iter<'_, CAP> {
         self.id_bitmap.into_iter()
     }
 }
